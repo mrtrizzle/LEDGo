@@ -9,10 +9,10 @@ app = Flask(__name__)
 MAT_SIZE = 8
 
 
-@app.route('/')
-#@app.route('/<any(plain, jquery, fetch):js>')
-def index():
-    return render_template('index.html')
+@app.route('/', defaults={'site': 'draw'})
+@app.route('/<any(animations, draw, gradient, text):site>')
+def index(site):
+    return render_template('{0}.html'.format(site), site=site)
 
 
 @app.route('/setPixel', methods=['POST'])
@@ -42,4 +42,4 @@ if __name__=='__main__':
 	mat = Matrix(MAT_SIZE,MAT_SIZE)
 	print("created matrix")
 
-	app.run('0.0.0.0')
+	app.run('0.0.0.0', debug=True)

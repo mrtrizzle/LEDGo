@@ -3,9 +3,14 @@
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 <!-- alternative bootstrap theme! (Superhero from here https://bootswatch.com/superhero/) -->
-<link href="https://stackpath.bootstrapcdn.com/bootswatch/4.3.1/superhero/bootstrap.min.css" rel="stylesheet" integrity="sha384-LS4/wo5Z/8SLpOLHs0IbuPAGOWTx30XSoZJ8o7WKH0UJhRpjXXTpODOjfVnNjeHu" crossorigin="anonymous">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.css') }}">
+
+
+<!-- 
+	<link href="https://stackpath.bootstrapcdn.com/bootswatch/4.3.1/superhero/bootstrap.min.css" rel="stylesheet" integrity="sha384-LS4/wo5Z/8SLpOLHs0IbuPAGOWTx30XSoZJ8o7WKH0UJhRpjXXTpODOjfVnNjeHu" crossorigin="anonymous">
+-->
 
 <!--<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"> -->
 
@@ -14,41 +19,44 @@
 
 
 
-<!-- slider -->
-<!-- source: https://github.com/seiyria/bootstrap-slider -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.6.1/bootstrap-slider.min.js"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.6.1/css/bootstrap-slider.min.css"></script>
 
-
-
-
-<div class="jumbotron">
-  <h1 class="display-3">LED GO</h1>
-  <p class="lead">This is a small interface for a LED matrix driven by a fadecandy controller.</p>
-</div>
 
 <div class="container">
-	<div class="row">
-		<div class = ".col-4">
-			<div class ="card">
-				<div id = "pixel-grid"></div>
-			</div>
-		</div>
-
-		<div class =".col-8">
-		{% include 'slider.html'%}
-		</div>
+	<div class="jumbotron">
+		<h1 class="display-3">LED GO</h1>
+		<p class="lead">This is a small interface for a LED matrix driven by a fadecandy controller.</p>
 	</div>
+
+	<nav class="navbar navbar-expand-lg navbar-dark bg-primary rounded">
+		<a class="navbar-brand" href="#">Navigation</a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		
+		<div class="collapse navbar-collapse" id="navbarColor01">
+			<ul class="navbar-nav mr-auto">
+			<li class="nav-item {% if site == 'animations' %}active{% endif %}">
+				<a class="nav-link" href="{{ url_for('index', site='animations') }}">Animations</a>
+			</li>
+			<li class="nav-item {% if site == 'draw' %}active{% endif %}">
+				<a class="nav-link" href="{{ url_for('index', site='draw') }}">Draw <span class="sr-only">(current)</span></a>
+			</li>
+			<li class="nav-item {% if site == 'gradient' %}active{% endif %}">
+				<a class="nav-link" href="{{ url_for('index', site='gradient') }}">Gradient</a>
+			</li>
+			<li class="nav-item {% if site == 'text' %}active{% endif %}">
+				<a class="nav-link" href="{{ url_for('index', site='text') }}">Text</a>
+			</li>
+			</ul>
+		</div>
+	</nav>
+
+	{% block content %}{% endblock %}
+
 </div>
 
 	
 
-<script src="{{url_for('static', filename='js/grid.js')}}"></script>
 
+{% block script %}{% endblock %}
 
-<script>
-	// References to flask methods for accessing directly from javascript
-	var setPixel = {{ url_for('setPixel')|tojson }};
-	var fillWithColor = {{ url_for('fillWithColor')|tojson }};
-
-</script>
