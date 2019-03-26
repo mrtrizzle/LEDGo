@@ -10,8 +10,8 @@ $(function () {
    pixelGrid = {
 		canvas: null,
       c2d: null,
-      canvasW: 432,
-      canvasH: 432,
+      canvasW: 428,
+      canvasH: 428,
       numPixelsX: 8,
       numPixelsY: 8,
       pixelSize: 50,
@@ -20,6 +20,7 @@ $(function () {
       
       init: function() {
          var canvas = document.createElement('canvas');
+         this.handleSizes();
          canvas.width = this.canvasW;
          canvas.height = this.canvasH;
          $pixelGrid.append(canvas);
@@ -35,7 +36,16 @@ $(function () {
          
          console.log("Init done..");
       },
-      
+
+      handleSizes: function() {
+         if($(window).width() <= 500) {
+            var size = $(window).width()
+            this.canvasW = size * 0.9;
+            this.canvasH = size * 0.9;
+
+            this.pixelSize = (this.canvasH / this.numPixelsX) - this.pixelSpacing;
+         }  
+      },
       
       bind: function(scope, fn) {
          return function() {

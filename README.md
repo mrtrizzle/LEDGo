@@ -13,3 +13,4 @@ A JS / Python control interface for a fadecandy-driven 8x8 LED matrix
 - [ ] Activation of animations
 - [ ] Selfmade animations by drawing multiple keyframes
 - [ ] Sliding text to matrix
+- [x] Optimize for mobile usage (on smartphone)
