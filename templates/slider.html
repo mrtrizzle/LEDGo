@@ -1,0 +1,93 @@
+
+<p>
+	Here come's a button to change the world. Lul.
+	</p>
+
+	<div class="card bg-light">
+		<div class="card-body">
+		<p>
+			<b>R</b> <input type="text" class="span2" value="" data-slider-min="0" data-slider-max="255" data-slider-step="1" data-slider-value="128" data-slider-id="RC" id="R" data-slider-tooltip="hide" data-slider-handle="square" />
+		</p>
+		<p>
+			<b>G</b> <input type="text" class="span2" value="" data-slider-min="0" data-slider-max="255" data-slider-step="1" data-slider-value="128" data-slider-id="GC" id="G" data-slider-tooltip="hide" data-slider-handle="round" />
+		</p>
+		<p>
+			<b>B</b> <input type="text" class="span2" value="" data-slider-min="0" data-slider-max="255" data-slider-step="1" data-slider-value="128" data-slider-id="BC" id="B" data-slider-tooltip="hide" data-slider-handle="triangle" />
+		</p>
+		<div id="RGB"></div>
+		
+		</div>
+			<button class="btn btn-info" id="fill"> Fill Matrix </button>
+			<button class="btn btn-outline-danger" id="clear">Clear Matrix</button>
+			<button class="btn btn-primary" id="send"> Send </button>
+		</div>
+
+		<div class="card">
+			<h3>Result:</h3>
+			<div id="result"></div>
+		</div>
+</div>
+
+
+<script>
+var RGBChange = function() {
+	$('#RGB').css('background', 'rgb('+r.getValue()+','+g.getValue()+','+b.getValue()+')')
+};
+
+var r = $('#R').slider()
+		.on('slide', RGBChange)
+		.data('slider');
+var g = $('#G').slider()
+		.on('slide', RGBChange)
+		.data('slider');
+var b = $('#B').slider()
+		.on('slide', RGBChange)
+		.data('slider');
+</script>
+
+<script>
+function send(e) {
+	console.log("Send hit with RGB: rgb("+r.getValue()+','+g.getValue()+','+b.getValue()+")");
+	e.preventDefault();
+	$.ajax({
+		method: 'POST',
+		url: {{ url_for('setPixel')|tojson }},
+		data: {'r': r.getValue(), 'g': g.getValue(), 'b': b.getValue()},
+		dataType: "json"
+	}).done(showResult);
+}
+
+function clearMatrix(e) {
+	console.log("Clearing matrix..");
+	e.preventDefault();
+	// Send to backend
+	$.ajax({
+		method: 'GET',
+		url: {{ url_for('clearMatrix') | tojson}}
+	}).done(showResult);
+
+	pixelGrid.clearGrid();
+}
+
+function fillMatrix(e) {
+	console.log("Filling matrix with color..");
+	e.preventDefault();
+	$.ajax({
+		method: 'POST',
+		url: {{ url_for('fillWithColor')|tojson }},
+		data: {'color': 'rgb('+r.getValue()+","+ g.getValue() + ","+  b.getValue() + ")"},
+		dataType: "json"
+	}).done(showResult);
+
+	pixelGrid.colorAllPixels('rgb('+r.getValue()+","+ g.getValue() + ","+  b.getValue() + ")");
+}
+
+
+function showResult(data) {
+	$("#result").text(data.message);
+}
+
+$('#fill').on('click', fillMatrix);
+$('#send').on('click', send);
+$('#clear').on('click', clearMatrix);
+</script>

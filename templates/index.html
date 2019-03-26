@@ -1,0 +1,54 @@
+<!doctype html>
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+<!-- alternative bootstrap theme! (Superhero from here https://bootswatch.com/superhero/) -->
+<link href="https://stackpath.bootstrapcdn.com/bootswatch/4.3.1/superhero/bootstrap.min.css" rel="stylesheet" integrity="sha384-LS4/wo5Z/8SLpOLHs0IbuPAGOWTx30XSoZJ8o7WKH0UJhRpjXXTpODOjfVnNjeHu" crossorigin="anonymous">
+
+<!--<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"> -->
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+
+
+
+
+<!-- slider -->
+<!-- source: https://github.com/seiyria/bootstrap-slider -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.6.1/bootstrap-slider.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.6.1/css/bootstrap-slider.min.css"></script>
+
+
+
+
+<div class="jumbotron">
+  <h1 class="display-3">LED GO</h1>
+  <p class="lead">This is a small interface for a LED matrix driven by a fadecandy controller.</p>
+</div>
+
+<div class="container">
+	<div class="row">
+		<div class = ".col-4">
+			<div class ="card">
+				<div id = "pixel-grid"></div>
+			</div>
+		</div>
+
+		<div class =".col-8">
+		{% include 'slider.html'%}
+		</div>
+	</div>
+</div>
+
+	
+
+<script src="{{url_for('static', filename='js/grid.js')}}"></script>
+
+
+<script>
+	// References to flask methods for accessing directly from javascript
+	var setPixel = {{ url_for('setPixel')|tojson }};
+	var fillWithColor = {{ url_for('fillWithColor')|tojson }};
+
+</script>
