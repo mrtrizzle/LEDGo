@@ -12,7 +12,7 @@ MAT_SIZE = 8
 @app.route('/', defaults={'site': 'draw'})
 @app.route('/<any(animations, draw, gradient, text):site>')
 def index(site):
-    return render_template('{0}.html'.format(site), site=site)
+	return render_template('{0}.html'.format(site), site=site, connected = mat.can_connect())
 
 
 @app.route('/setPixel', methods=['POST'])
@@ -40,6 +40,7 @@ def fillWithColor():
 
 if __name__=='__main__':
 	mat = Matrix(MAT_SIZE,MAT_SIZE)
-	print("created matrix")
-
+	print("created matrix object.")
+	connected = False
 	app.run('0.0.0.0', debug=True)
+	

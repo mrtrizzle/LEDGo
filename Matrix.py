@@ -8,8 +8,13 @@ class Matrix(object):
 		self.w = width
 		self.h = height
 		self.connection = self.initOPC()
-
 		self.mat = np.zeros((self.w,self.h,3))
+
+	def initOPC(self, url='localhost:7890'):
+		return opc.Client(url)
+
+	def can_connect(self):
+		return self.connection.can_connect()
 		
 	def setPixel(self,x,y,r,g,b):
 		self.mat[x,y,0] = r
@@ -46,9 +51,6 @@ class Matrix(object):
 			for j in range(len(self.mat[0])):
 				self.mat[i][j] = [r,g,b]
 		self.drawMatrix()
-
-	def initOPC(self, url='localhost:7890'):
-		return opc.Client(url)
 		
 	def image2pixels(self, image):
 	    """
