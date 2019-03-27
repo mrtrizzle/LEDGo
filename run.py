@@ -1,5 +1,6 @@
 from flask import jsonify, render_template, request, Flask
 from Matrix import Matrix
+from AnimationHandler import AnimationHandler
 
 app = Flask(__name__)
 #app.config.from_object(__name__)
@@ -10,9 +11,32 @@ MAT_SIZE = 8
 
 
 @app.route('/', defaults={'site': 'draw'})
-@app.route('/<any(animations, draw, gradient, text):site>')
+@app.route('/<any(draw, gradient, text):site>')
 def index(site):
 	return render_template('{0}.html'.format(site), site=site, connected = mat.can_connect())
+
+ah = None
+
+@app.route('/animations')
+def animations(): 
+	global ah 
+	ah = AnimationHandler()
+	return render_template('animations.html', site='animations', scripts=ah.script_names)
+
+@app.route('/startAnimation', methods=['POST'])
+def startAnimation():
+	s = request.form.get('script', 'Error in Ajax, see run.py', type=str)
+	if ah is not None:
+		ah.start_animation_by_name(s)
+		
+	return jsonify(active_script = s)
+
+@app.route('/stopAnimation', methods=['POST'])
+def stopAnimation():
+	if ah is not None:
+		ah.end_active_script()
+	return jsonify(active_script = "None")
+
 
 
 @app.route('/setPixel', methods=['POST'])

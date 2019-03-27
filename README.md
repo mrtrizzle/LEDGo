@@ -10,13 +10,15 @@ A JS / Python control interface for a fadecandy-driven 8x8 LED matrix
 
 ## TODO Brainstorming
 
-- [ ] Connection status to fadecandy server / LED matrix
+- [x] Connection status to fadecandy server / LED matrix
 - [ ] Some default color palettes  
 - [ ] Drawing by hold-and-pull
-- [ ] Activation of animations
+- [x] Activation of animations
+- [ ] Include Perlin Noise as animation
 - [ ] Selfmade animations by drawing multiple keyframes
 - [ ] Sliding text to matrix
 - [x] Optimize for mobile usage (on smartphone)
+- [ ] Flask Restart option (see [Stackoverflow](https://stackoverflow.com/questions/11329917/restart-python-script-from-within-itself))
 
 
 ## Color Palette Sliders

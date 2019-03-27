@@ -1,10 +1,47 @@
 {% extends 'index.html'%}
 
 {% block content %}
-<h1>Animations</h1> 
+
+<div class="card">
+    <div class="card-header">Animations - Active: <span class="badge badge-primary" id="activeAnimation">None</span>
+    <button type="button" class="btn btn-danger float-right" id="stopScript">Kill current animation</button>
+    </div>
+    <div class="card-body">
+            {% for script in scripts%}
+            <button type="button" class="btn btn-info btn-block" id="{{script}}">{{ script }}</button>
+            {% endfor %}
+    </div>
+</div>
+
 {% endblock %}
 
 
 {% block script %}
+<script>
+    {% for script in scripts%}
+    $('#{{script}}').on('click', function(e) {
+        $.ajax({
+            method: 'POST',
+            url: {{ url_for('startAnimation')|tojson }},
+            data: {'script': '{{ script }}' },
+            dataType: "json"
+            }).done(function(data) {
+                $("#activeAnimation").text(data.active_script);
+            });
 
+        console.log("Starting python animation: {{script}}");
+    });
+    {% endfor %}
+
+    $('#stopScript').on('click', function(e) {
+        $.ajax({
+            method: 'POST',
+            url: {{ url_for('stopAnimation')|tojson }},
+            data: {},
+            dataType: "json"
+            }).done(function(data) {
+                $("#activeAnimation").text(data.active_script);
+            });
+    });
+</script>
 {% endblock %}

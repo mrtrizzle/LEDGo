@@ -1,0 +1,1 @@
+print("Script 3.py started.")
