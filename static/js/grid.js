@@ -31,8 +31,23 @@ $(function () {
          this.renderLoop();
          
          $pixelGrid.addClass('appear');
-         
+         /*
          canvas.addEventListener('click', this.bind(this, this.handleClick));
+         */
+
+         var _this = this;
+         mouseIsDown = false;
+         canvas.onmousedown = function(e) {
+            mouseIsDown = true;
+            _this.handleMove(e);
+         };
+
+         canvas.onmouseup = function(e) {
+            mouseIsDown = false;
+         };
+
+         oldX = oldY = -1;
+         canvas.addEventListener('mousemove', this.bind(this, this.handleMove));
          
          console.log("Init done..");
       },
@@ -62,23 +77,28 @@ $(function () {
          }
       },
       
-      handleClick: function(e) {         
-         x = Math.floor(e.offsetX / (this.pixelSize+this.pixelSpacing));
-         y = Math.floor(e.offsetY / (this.pixelSize+this.pixelSpacing));
-         
-         /*
-         var col = 'rgb('+Math.floor(Math.random() * 256) + "," +
-             Math.floor(Math.random() * 256) +","+
-             Math.floor(Math.random() * 256) +")";
-             */
-
-         var col = 'rgb(' + r.getValue() + "," + g.getValue() + "," + b.getValue() + ")";
-         
-         if (x < this.numPixelsX &&
-             y < this.numPixelsY) {
-            this.setPixel(x,y,col);
+      handleMove: function(e) {
+         if (mouseIsDown) {
+            x =  Math.floor(e.offsetX / (this.pixelSize+this.pixelSpacing));
+            y =  Math.floor(e.offsetY / (this.pixelSize+this.pixelSpacing));
+            
+            /*
+            var col = 'rgb('+Math.floor(Math.random() * 256) + "," +
+                Math.floor(Math.random() * 256) +","+
+                Math.floor(Math.random() * 256) +")";
+                */
+            
+            var col = 'rgb(' + r.getValue() + "," + g.getValue() + "," + b.getValue() + ")";
+            
+            if (x < this.numPixelsX &&
+                y < this.numPixelsY && (
+                   x != oldX || y != oldY
+                )) {
+               this.setPixel(x,y,col);
+               oldX = x;
+               oldY = y;
+            }
          }
-         
       },
       
       createPixel: function (x, y) {
