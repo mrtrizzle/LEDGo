@@ -23,7 +23,8 @@ A JS / Python control interface for a fadecandy-driven 8x8 LED matrix
 **Other**: 
 
 - [x] Activation of animations
-- [ ] Include Perlin Noise as animation
+- [x] Include Perlin Noise as animation  
+  - [ ] Think of a way to parameterize the script (at least chose between 4 matplotlib colormaps)
 - [ ] Sliding text to matrix
 - [x] Optimize for mobile usage (on smartphone)
 - [ ] Flask Restart option (see [Stackoverflow](https://stackoverflow.com/questions/11329917/restart-python-script-from-within-itself)) - needed if accessed by multiple devices?

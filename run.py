@@ -13,6 +13,8 @@ MAT_SIZE = 8
 @app.route('/', defaults={'site': 'draw'})
 @app.route('/<any(draw, gradient, text):site>')
 def index(site):
+	if ah is not None:
+		ah.kill_all_child_processes()
 	return render_template('{0}.html'.format(site), site=site, connected = mat.can_connect())
 
 ah = None
@@ -34,10 +36,8 @@ def startAnimation():
 @app.route('/stopAnimation', methods=['POST'])
 def stopAnimation():
 	if ah is not None:
-		ah.end_active_script()
+		ah.kill_all_child_processes()
 	return jsonify(active_script = "None")
-
-
 
 @app.route('/setPixel', methods=['POST'])
 def setPixel():
