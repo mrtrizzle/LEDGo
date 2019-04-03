@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 import time, random, sys, argparse
-import includes.colormaps as cm
+import include.colormaps as cm
 import numpy as np
 import glc
 
