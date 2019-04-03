@@ -13,8 +13,8 @@ MAT_SIZE = 8
 @app.route('/', defaults={'site': 'draw'})
 @app.route('/<any(draw, gradient, text):site>')
 def index(site):
-	if ah is not None:
-		ah.kill_all_child_processes()
+	#if ah is not None:
+	#	ah.kill_all_child_processes()
 	return render_template('{0}.html'.format(site), site=site, connected = mat.can_connect())
 
 ah = None
@@ -22,7 +22,8 @@ ah = None
 @app.route('/animations')
 def animations(): 
 	global ah 
-	ah = AnimationHandler()
+	if ah is None:
+		ah = AnimationHandler()
 	return render_template('animations.html', site='animations', scripts=ah.script_names)
 
 @app.route('/startAnimation', methods=['POST'])

@@ -20,7 +20,6 @@ if __name__ == '__main__' and __package__ is None:
 	i_inc = 0.001
 	zoom = 2
 
-
 	vals = np.zeros ( (8,8))
 
 	while True:

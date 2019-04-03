@@ -92,11 +92,11 @@ class Matrix(object):
 				ensures, that all pixels are faded out and are hence off when stopping
 				the programm.
 			
-			Parameters
-			----------
-			c   : the OPC client
-			img : the image to fade out
-			fadetime : the speed with wich to fade out
+		Parameters
+		----------
+		c   : the OPC client
+		img : the image to fade out
+		fadetime : the speed with wich to fade out
 		"""
 		# flash!
 		img_BLACK = np.zeros( (8,16,3) )
